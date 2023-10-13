@@ -37,6 +37,8 @@
 					</div>
 					<div class="card-footer">
 						<footer class="date" th:text="${#temporals.format(entry.date, 'dd. MMMM yyyy - HH:mm')}">Datum</footer>
+                            <input type="checkbox" th:id="like+${index}" th:checked="${false}"/>
+                            <label th:for="like+${index}" th:text="${index} +' likes'"></label>
 					</div>
 				</div>
 			</div>
