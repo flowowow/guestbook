@@ -19,7 +19,7 @@
 
 		<br />
 
-		<div id="entries" class="mx-auto">			
+		<div id="entries" class="mx-auto">
 			<div th:each="entry, it : ${entries}" th:with="index = ${it.count}" th:fragment="entries">
 				<div class="card" th:fragment="entry" th:id="entry+${entry.id}">
 					<div class="card-header">
@@ -38,7 +38,7 @@
 					<div class="card-footer">
 						<footer class="date" th:text="${#temporals.format(entry.date, 'dd. MMMM yyyy - HH:mm')}">Datum</footer>
                             <input type="checkbox" th:id="like+${index}" th:checked="${false}"/>
-                            <label th:for="like+${index}" th:text="${index} +' likes'"></label>
+                            <label th:for="like+${index}" th:text="${likeAmount} + ' ' + #{guestbook.form.likes}"></label>
 					</div>
 				</div>
 			</div>

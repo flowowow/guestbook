@@ -27,11 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -81,6 +77,8 @@ class GuestbookController {
 
 		model.addAttribute("entries", guestbook.findAll());
 		model.addAttribute("form", form);
+		model.addAttribute("likeAmount", 5);
+
 
 		return "guestbook";
 	}
@@ -148,6 +146,7 @@ class GuestbookController {
 
 		model.addAttribute("entry", guestbook.save(form.toNewEntry()));
 		model.addAttribute("index", guestbook.count());
+		model.addAttribute("likeAmount", 0);
 
 		return new HtmxResponse()
 				.addTemplate("guestbook :: entry")
