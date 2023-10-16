@@ -15,6 +15,7 @@
  */
 package guestbook;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -36,6 +37,7 @@ class GuestbookEntry {
 	private @Id @GeneratedValue Long id;
 	private final String name, text;
 	private final LocalDateTime date;
+	private final LocalDate birth;
 
 	/**
 	 * Creates a new {@link GuestbookEntry} for the given name and text.
@@ -43,21 +45,24 @@ class GuestbookEntry {
 	 * @param name must not be {@literal null} or empty
 	 * @param text must not be {@literal null} or empty
 	 */
-	public GuestbookEntry(String name, String text) {
+	public GuestbookEntry(String name, String text, String birth) {
 
 		Assert.hasText(name, "Name must not be null or empty!");
 		Assert.hasText(text, "Text must not be null or empty!");
+		Assert.hasText(birth, "Birth must not be null or empty!");
 
 		this.name = name;
 		this.text = text;
 		this.date = LocalDateTime.now();
+		this.birth = formatBirth(birth);
 	}
 
 	@SuppressWarnings("unused")
 	public GuestbookEntry() {
-        this.name = null;
+		this.name = null;
 		this.text = null;
 		this.date = null;
+		this.birth = null;
 	}
 
 	public String getName() {
@@ -74,5 +79,28 @@ class GuestbookEntry {
 
 	public String getText() {
 		return text;
+	}
+
+	public LocalDate getBirth() {
+		return birth;
+	}
+
+	private LocalDate formatBirth(String birthString) {
+		String[] date = birthString.split("[.\\-]");
+		if (date.length != 3)
+			return LocalDate.of(1899, 1, 1);
+		int day, month, year;
+		LocalDate result;
+		try {
+			day = Integer.parseInt(date[0]);
+			month = Integer.parseInt(date[1]);
+			year = Integer.parseInt(date[2]);
+
+			result = LocalDate.of(year, month, day);
+		}
+		catch (Exception e) {
+			return LocalDate.of(1899, 1, 1);
+		}
+		return result;
 	}
 }
